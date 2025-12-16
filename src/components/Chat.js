@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { socket } from '../services/socket'; // Import the socket instance
 
-const API_URL = 'http://localhost:5000/api/messages'; 
+const API_URL = 'https://chat-backend-api1.onrender.com/api/messages'; 
 
 const Chat = ({ userName }) => {
   const [messages, setMessages] = useState([]);
