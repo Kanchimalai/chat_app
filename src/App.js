@@ -1,4 +1,4 @@
-// chat-frontend/src/App.js
+
 import React, { useState } from 'react';
 import Chat from './components/Chat';
 

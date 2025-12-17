@@ -1,7 +1,7 @@
-// chat-frontend/src/components/Chat.js
+
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { socket } from '../services/socket'; // Import the socket instance
+import { socket } from '../services/socket'; 
 
 const API_URL = 'https://chat-backend-api1.onrender.com/api/messages'; 
 
@@ -10,40 +10,40 @@ const Chat = ({ userName }) => {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
 
-  // Scrolls to the bottom of the message list
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // 1. Fetch Message History (HTTP GET)
+
   useEffect(() => {
     axios.get(API_URL)
       .then(response => {
         setMessages(response.data);
       })
       .catch(error => console.error('Error fetching messages:', error));
-  }, []); // Run only once on mount
+  }, []); 
 
-  // 2. Set up Socket Listeners (Persistent Connection)
+  
   useEffect(() => {
-    // Listener for real-time messages
+
     socket.on('receiveMessage', (message) => {
-      // Optimization: Spread the new message to avoid creating a new array
+    
       setMessages(prevMessages => [...prevMessages, message]);
     });
 
-    // Clean up listeners on unmount
+    
     return () => {
       socket.off('receiveMessage');
     };
   }, []);
 
-  // 3. Scroll when messages change
+ 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // 4. Send Message Handler
+ 
   const sendMessage = (e) => {
     e.preventDefault();
     if (input.trim() && userName) {
@@ -52,7 +52,7 @@ const Chat = ({ userName }) => {
         text: input.trim(),
       };
       
-      // Emit message over Socket.IO (Persistent Connection)
+      
       socket.emit('sendMessage', payload); 
       
       setInput('');
